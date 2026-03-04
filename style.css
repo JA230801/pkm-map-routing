@@ -1,0 +1,284 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+#map {
+  width: 100%;
+  height: 100vh;
+}
+
+#panel {
+  position: absolute;
+  top: 5px;
+  left: 50px;
+  width: 300px;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.9);
+}
+
+#panel input {
+  width: 90%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  border:none;
+  border-bottom:1px solid #ddd;
+}
+
+#panel button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#panel input:focus{
+
+outline:none;
+border-bottom:1px solid #1a73e8;
+
+}
+
+#routeBtn {
+  background: #1a73e8;
+  color: white;
+}
+
+#addStop {
+  background: #e8f0fe;
+}
+
+#clearBtn {
+  background: #fce8e6;
+}
+
+#result {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* ========================= */
+/* Auto Searchable Text */
+/* ========================= */
+#suggestions {
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.suggestion-item {
+  padding: 6px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background: #f1f1f1;
+}
+
+/* ========================= */
+/* Locate Control Style */
+/* ========================= */
+
+.locate-control {
+  top: 80px;   /* bawah zoom */
+  left: .5em;
+}
+
+.locate-control button {
+
+width:36px;
+height:36px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:white;
+border:none;
+cursor:pointer;
+border-radius:6px;
+
+font-size:18px;
+
+box-shadow:0 1px 4px rgba(0,0,0,0.3);
+
+}
+
+.locate-control button:hover{
+
+background:#f1f1f1;
+transform:scale(1.05);
+
+}
+
+/* ========================= */
+/* GPS BLINK ANIMATION */
+/* ========================= */
+
+@keyframes gpsPulse {
+
+0%{
+transform:scale(1);
+opacity:1;
+}
+
+50%{
+transform:scale(1.8);
+opacity:0.4;
+}
+
+100%{
+transform:scale(1);
+opacity:1;
+}
+
+}
+
+.gps-marker{
+
+animation:gpsPulse 1.5s infinite;
+
+}
+
+/* =============================== */
+/* TURN BY TURN DIRECTION LIST */
+/* =============================== */
+.direction-item {
+
+padding:10px;
+border-bottom:1px solid #eee;
+font-size:14px;
+
+}
+
+.direction-item:hover {
+
+background:#f5f5f5;
+
+}
+
+/* ========================= */
+/* BASEMAP LAYER CONTROL */
+/* ========================= */
+
+#basemapControl{
+
+position:absolute;
+bottom:30px;
+left:10px;
+z-index:2000;
+
+}
+
+#layerBtn{
+
+width:42px;
+height:42px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:white;
+border:none;
+border-radius:10px;
+
+box-shadow:0 2px 6px rgba(0,0,0,0.3);
+
+cursor:pointer;
+font-size:18px;
+
+}
+
+#layerBtn img{
+width:35px;
+height:35px;
+/* margin-right:3px; */
+vertical-align:middle;
+}
+
+#layerBtn:hover{
+
+background:#f1f1f1;
+
+}
+
+#layerMenu{
+
+display:none;
+margin-top:6px;
+background:white;
+border-radius:8px;
+box-shadow:0 2px 6px rgba(0,0,0,0.3);
+overflow:hidden;
+
+}
+
+#layerMenu div{
+
+padding:12px 16px;
+cursor:pointer;
+font-size:14px;
+
+display:flex;
+align-items:center;
+gap:8px;
+
+}
+
+#layerMenu div:hover{
+
+background:#f5f5f5;
+
+}
+
+/* ========================= */
+/* MOBILE RESPONSIVE UI */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+#panel{
+
+left:10px;
+top:10px;
+width:85%;
+padding:12px;
+
+}
+
+#panel input{
+
+font-size:16px;
+
+}
+
+#panel button{
+
+padding:10px;
+font-size:15px;
+
+}
+
+#map{
+
+height:100vh;
+
+}
+
+}

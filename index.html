@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>PKM Routing App V1.0</title>
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/ol@7.5.2/ol.css">
+
+<link rel="stylesheet" href="/style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/ol@7.5.2/dist/ol.js"></script>
+
+</head>
+
+<body>
+
+<div id="panel">
+<h3>Direction</h3>
+
+<input type="text" id="startSearch" placeholder="Start location (POI or Road)">
+<input type="text" id="endSearch" placeholder="Destination">
+
+<div id="suggestions"></div>
+<div id="stopsContainer"></div>
+
+<button id="addStop">+ Add Stop</button>
+<button id="routeBtn">Route</button>
+<button id="clearBtn">Clear</button>
+
+<div id="result"></div>
+<div id="directions"></div>
+
+</div>
+
+<div id="basemapControl">
+
+<!-- <button id="layerBtn">🗺 Layers</button> -->
+  <button id="layerBtn">
+    <img src="/icon/layers.png" alt="Layers">
+  </button>
+
+  <div id="layerMenu">
+    <div data-layer="osm">OSM Map</div>
+    <div data-layer="googleSat">Google Satellite</div>
+    <div data-layer="esriSat">ESRI Satellite</div>
+  </div>
+
+</div>
+
+<div id="map"></div>
+
+<!-- PWA (PROGRESSIVE WEB APPLICATION - SERVICE WORKER) SCRIPT -->
+       <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then((reg) => console.log('✅ Service Worker Registered', reg.scope))
+                .catch((err) => console.log('❌ SW Registration Failed', err));
+            });
+        }
+        </script>
+
+<script src="/app.js"></script>
+
+</body>
+</html>
