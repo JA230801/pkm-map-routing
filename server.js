@@ -11,6 +11,7 @@ app.use(cors({
     "https://gis.pkmgroup.com",
     "http://10.1.4.23",
     "https://10.1.4.23:3000"
+    //"https://github.com/JA230801/pkm-map-routing"
   ]
 }));
 
@@ -76,17 +77,22 @@ app.get("/search", async (req, res) => {
 //#endregion
 
 
-const PORT = 3000;
+// const PORT = 3000;
 
-const https = require("https");
-const fs = require("fs");
+// const https = require("https");
+// const fs = require("fs");
 
-const httpsOptions = {
-  key: fs.readFileSync("./server.key"),
-  cert: fs.readFileSync("./server.cert")
-};
+// const httpsOptions = {
+//   key: fs.readFileSync("./server.key"),
+//   cert: fs.readFileSync("./server.cert")
+// };
 
-https.createServer(httpsOptions, app)
-.listen(3000, "0.0.0.0", () => {
-  console.log(`HTTPS server running at https://10.1.4.23:${PORT}`);
+// https.createServer(httpsOptions, app)
+// .listen(3000, "0.0.0.0", () => {
+//   console.log(`HTTPS server running at https://10.1.4.23:${PORT}`);
+// });
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
