@@ -15,18 +15,36 @@ href="https://cdn.jsdelivr.net/npm/ol@7.5.2/ol.css">
 
 <body>
 
+<button id="togglePanelBtn">
+  <img src="/icon/direction.png" alt="Directions">
+</button>
+
 <div id="panel">
+
 <h3>Direction</h3>
 
+<div class="route-field">
+<div class="route-icon start"></div>
 <input type="text" id="startSearch" placeholder="Start location (POI or Road)">
-<input type="text" id="endSearch" placeholder="Destination">
+</div>
 
-<div id="suggestions"></div>
 <div id="stopsContainer"></div>
 
-<button id="addStop">+ Add Stop</button>
+<div class="route-field">
+<div class="route-icon end"></div>
+<input type="text" id="endSearch" placeholder="Destination">
+</div>
+
+<div id="suggestions"></div>
+
+<div class="add-destination" id="addStop">
+<span>＋</span> Add destination
+</div>
+
+<div class="panel-buttons">
 <button id="routeBtn">Route</button>
 <button id="clearBtn">Clear</button>
+</div>
 
 <div id="result"></div>
 <div id="directions"></div>

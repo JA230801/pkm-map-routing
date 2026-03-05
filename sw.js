@@ -4,7 +4,10 @@ const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './style.css',
-  './app.js'
+  './app.js',
+  './icon/layers.png',
+  './icon/locate.png',
+  './icon/menu.png'
 ];
 
 // 1. INSTALL EVENT: Cache the App Shell

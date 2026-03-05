@@ -198,10 +198,11 @@ document.getElementById("routeBtn").addEventListener("click", async () => {
       //const response = await fetch(`${API_BASE}/route-by-name?start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`);
 
       const response = await fetch(`${API_BASE}/route-by-name?start=${encodeURIComponent(allPoints[i])}&end=${encodeURIComponent(allPoints[i+1])}`);
+      //console.log (response);
 
       const data = await response.json();
 
-      console.log("Segment:", data);
+      //console.log("Segment:", data);
 
       if (!data || !data.geometry) {
         console.warn("Route not found for segment:", allPoints[i], "→", allPoints[i+1]);
@@ -278,17 +279,30 @@ document.getElementById("routeBtn").addEventListener("click", async () => {
   let stopCount = 0;
 
   document.getElementById("addStop").addEventListener("click", () => {
-    stopCount++;
 
-    const input = document.createElement("input");
-    input.type = "text";
-    input.placeholder = "Stop " + stopCount;
-    input.className = "stopInput";
+  stopCount++;
 
-    document.getElementById("stopsContainer").appendChild(input);
+  const wrapper = document.createElement("div");
+  wrapper.className = "route-field";
 
-    enableAutoSearch(input);
-  });
+  const icon = document.createElement("div");
+  icon.className = "route-icon stop";
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.placeholder = "Stop " + stopCount;
+  input.className = "stopInput";
+
+  wrapper.appendChild(icon);
+  wrapper.appendChild(input);
+
+  const destField = document.getElementById("endSearch").parentElement;
+
+  destField.parentNode.insertBefore(wrapper, destField);
+
+  enableAutoSearch(input);
+
+});
 //#endregion
 
 //#region - Auto Searchable text
@@ -296,7 +310,7 @@ document.getElementById("routeBtn").addEventListener("click", async () => {
   function enableAutoSearch(inputElement) {
   inputElement.addEventListener("input", async function () {
     const query = this.value;
-    if (query.length < 2) return;
+    if (query.length < 3) return;
 
     //const response = await fetch(`/search?q=${query}`);
     const response = await fetch(`${API_BASE}/search?q=${query}`);
@@ -306,22 +320,82 @@ document.getElementById("routeBtn").addEventListener("click", async () => {
   });
 }
 
+// function showSuggestions(data, inputElement) {
+//   const suggestionBox = document.getElementById("suggestions");
+//   suggestionBox.innerHTML = "";
+
+//   data.forEach(item => {
+//     const div = document.createElement("div");
+//     div.textContent = item.name;
+//     div.className = "suggestion-item";
+
+//     div.onclick = () => {
+//       inputElement.value = item.name;
+//       suggestionBox.innerHTML = "";
+
+//     };
+
+//     suggestionBox.appendChild(div);
+//   });
+// }
+
 function showSuggestions(data, inputElement) {
+
   const suggestionBox = document.getElementById("suggestions");
+
   suggestionBox.innerHTML = "";
 
+  /* ========================= */
+  /* YOUR LOCATION OPTION */
+  /* ========================= */
+
+  const geoDiv = document.createElement("div");
+
+  geoDiv.className = "suggestion-item";
+
+  geoDiv.innerHTML = "📍 Your Location";
+
+  geoDiv.onclick = () => {
+
+    navigator.geolocation.getCurrentPosition(position => {
+
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      inputElement.value = lat + ", " + lon;
+
+      suggestionBox.innerHTML = "";
+
+    });
+
+  };
+
+  suggestionBox.appendChild(geoDiv);
+
+  /* ========================= */
+  /* DATABASE SEARCH RESULT */
+  /* ========================= */
+
   data.forEach(item => {
+
     const div = document.createElement("div");
-    div.textContent = item.name;
+
     div.className = "suggestion-item";
 
+    div.textContent = item.name;
+
     div.onclick = () => {
+
       inputElement.value = item.name;
+
       suggestionBox.innerHTML = "";
+
     };
 
     suggestionBox.appendChild(div);
+
   });
+
 }
 
 enableAutoSearch(document.getElementById("startSearch"));
@@ -335,7 +409,9 @@ let locateActive = false;
 class LocateControl extends ol.control.Control {
   constructor() {
     const button = document.createElement('button');
-    button.innerHTML = '📍';
+    button.className = "glass-btn";
+    button.innerHTML = '<img src="/icon/locate.png">';
+    //button.innerHTML = '◉';
     button.title = "Locate Me";
 
     const element = document.createElement('div');
@@ -465,5 +541,77 @@ function addDirection(text) {
   };
 
   });
+
+//#endregion
+
+//#region - PANEL QUERY (ROUTING)
+
+/* ============================= */
+/* PANEL TOGGLE */
+/* ============================= */
+
+const panel = document.getElementById("panel");
+
+const toggleBtn = document.getElementById("togglePanelBtn");
+
+toggleBtn.onclick = () => {
+
+panel.classList.toggle("panel-hidden");
+
+};
+
+/* ============================= */
+/* CLOSE MENU WHEN CLICK MAP */
+/* ============================= */
+
+document.getElementById("map").onclick = ()=>{
+
+layerMenu.style.display="none";
+layerBtn.classList.remove("btn-active");
+
+};
+
+
+/* ============================= */
+/* BUTTON ACTIVE SYSTEM */
+/* ============================= */
+
+function toggleActive(btn){
+
+btn.classList.toggle("btn-active");
+
+}
+
+
+/* ============================= */
+/* MOBILE AUTO CLOSE PANEL */
+/* ============================= */
+
+function autoClosePanel(){
+
+if(window.innerWidth < 768){
+
+    panel.classList.add("panel-hidden");
+  }
+
+}
+
+window.addEventListener("resize",autoClosePanel);
+autoClosePanel();
+
+//#endregion
+
+
+//#region - Supaya suggestion hilang apabila user klik luar panel
+
+document.addEventListener("click", (e) => {
+
+  if(!e.target.closest("#panel")){
+
+    document.getElementById("suggestions").innerHTML = "";
+
+  }
+
+});
 
 //#endregion
